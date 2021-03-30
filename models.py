@@ -19,11 +19,11 @@ class Net(nn.Module):
         
         # As an example, you've been given a convolutional layer, which you may (but don't have to) change:
         # 1 input image channel (grayscale), 32 output channels/feature maps, 5x5 square convolution kernel
-        self.conv1 = nn.Conv2d(1, 32, 5)
+        self.conv1 = nn.Conv2d(1, 8, 5)
         # output size (224-5)/1 + 1 = 220
         # (32, 220, 220)
         
-        self.pool1 = nn.MaxPool2d(2, 2)
+        self.pool = nn.MaxPool2d(2, 2)
         # output size = 220/2 = 110
         # (32, 110, 110)
         
@@ -31,11 +31,11 @@ class Net(nn.Module):
         # (32, 110, 110)
               
         
-        self.conv2 = nn.Conv2d(32, 64, 5)
+        self.conv2 = nn.Conv2d(8, 16, 5)
         # output size (110-5)/1 + 1 = 106
         # (64, 106, 106)
         
-        self.pool2 = nn.MaxPool2d(2, 2)
+        #self.pool2 = nn.MaxPool2d(2, 2)
         # output size 
         # (64, 53, 53)
         
@@ -56,7 +56,7 @@ class Net(nn.Module):
         
         
         # flatten
-        self.fc1 = nn.Linear(64*53*53, 6400)
+        self.fc1 = nn.Linear(16*53*53, 6400)
         self.drop4 = nn.Dropout(p=0.4)
         
         # Linear
@@ -72,10 +72,10 @@ class Net(nn.Module):
         ## x is the input image and, as an example, here you may choose to include a pool/conv step:
         ## x = self.pool(F.relu(self.conv1(x)))
         
-        x = self.pool1(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv1(x)))
         x = self.drop1(x)
         
-        x = self.pool2(F.relu(self.conv2(x)))
+        x = self.pool(F.relu(self.conv2(x)))
         x = self.drop2(x)
         
         #x = self.pool(F.relu(self.conv3(x)))
